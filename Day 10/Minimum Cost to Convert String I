@@ -1,0 +1,41 @@
+class Solution {
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        int alp[26][26] ;
+        for(int i = 0; i < 26; i++){
+            for(int j = 0; j < 26; j++){
+                alp[i][j] = INT_MAX;
+                if(i == j){
+                    alp[i][j] = 0;
+                }
+            }
+        }
+        for(int i = 0; i < original.size(); i++){
+            alp[original[i] - 'a'][changed[i] - 'a'] = min(cost[i], alp[original[i] - 'a'][changed[i] - 'a']);
+        }
+
+        for(int k = 0; k < 26; k++){
+            for(int i = 0; i < 26; i++){
+                for(int j = 0; j < 26; j++){
+                    if((alp[k][j] != INT_MAX && alp[i][k] != INT_MAX) && alp[i][j] > (alp[i][k] + alp[k][j])){
+                        alp[i][j] = alp[i][k] + alp[k][j];
+                    }
+                }
+            }
+        }
+
+        long long ans = 0;
+
+        for(int i = 0; i < source.size(); i++){
+            if(source[i] != target[i]){
+                if(alp[source[i] - 'a'][target[i] - 'a'] != INT_MAX){
+                    ans += alp[source[i] - 'a'][target[i] - 'a'];
+                }else{
+                    return -1;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
