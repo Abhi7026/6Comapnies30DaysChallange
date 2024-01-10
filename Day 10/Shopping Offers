@@ -1,0 +1,48 @@
+class Solution {
+public:
+
+    int ans;
+
+    bool check(vector<int> &nds, vector<vector<int>> &sp, int idx)
+    {
+        int n=nds.size();
+        for(int i=0; i<n; i++)
+        {
+            if(nds[i]-sp[idx][i]<0) return false;
+        }
+        return true;
+    }
+
+    int directBuy(vector<int> &nds, vector<int> &pr)
+    {
+        int n=nds.size(), total=0;
+        for(int i=0; i<n; i++) total+=(nds[i]*pr[i]);
+        return total;
+    }
+
+    void solve(vector<int> &pr, vector<vector<int>> &sp, vector<int> &nds, int idx, int n, int cost)
+    {
+        if(cost>ans) return;
+        if(idx==sp.size())
+        {
+            cost+=directBuy(nds, pr);
+            ans=min(ans, cost);
+            return;
+        }
+        if(check(nds, sp, idx))
+        {
+            for(int i=0; i<n; i++) nds[i]-=sp[idx][i];
+            solve(pr, sp, nds, idx, n, cost+sp[idx][n]);
+            for(int i=0; i<n; i++) nds[i]+=sp[idx][i];
+        }
+        solve(pr, sp, nds, idx+1, n, cost);
+    }
+
+    int shoppingOffers(vector<int>& pr, vector<vector<int>>& sp, vector<int>& nds) 
+    {
+        int n=pr.size();
+        ans=directBuy(nds, pr);
+        solve(pr, sp, nds, 0, n, 0);
+        return ans;        
+    }
+};
