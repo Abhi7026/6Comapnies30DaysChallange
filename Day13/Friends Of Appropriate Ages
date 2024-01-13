@@ -1,0 +1,24 @@
+class Solution {
+public:
+bool check(int a,int b){
+    return !(b<=0.5*a+7||b>a);
+}
+    int numFriendRequests(vector<int>& ages) {
+       unordered_map<int,int>mpp;
+       int count=0;
+       for(auto it:ages){
+           mpp[it]++;
+       }
+       for(auto &a:mpp){
+           for(auto &b:mpp){
+               if(check(a.first,b.first)){
+                   if(a.first==b.first)
+                   count+=(a.second)*(b.second-1);
+                   else
+                   count+=(a.second)*(b.second);
+               }
+           }
+       }
+       return count;
+    }
+};
