@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool isValidSerialization(string preorder) {
+       int ans=1;
+       preorder+=',';
+       for(int i=0;i<preorder.size();i++){
+           if(preorder[i]!=',')
+           continue;
+           ans--;
+           if(ans<0)
+           return false;
+           if(preorder[i-1]!='#')
+           ans+=2;
+       }
+       return ans==0;
+    }
+};
