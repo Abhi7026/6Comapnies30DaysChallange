@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int longestString(int x, int y, int z) {
+        int ans=0;
+        if(x!=y){
+            ans=min(x,y)*2+1;
+        }
+        else
+        ans=min(x,y)*2;
+
+        return (ans+z)*2;
+    }
+};
