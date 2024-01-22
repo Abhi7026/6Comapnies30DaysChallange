@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+class ThroneInheritance {
+public:
+    map<string,set<pair<int,string>>>mpp;
+    map<string,string>child_parent;
+    string ans;
+    map<string,int>ids;
+    int count=1;
+    ThroneInheritance(string kingName) {
+        ans=kingName;
+        ids[ans]=1;
+        count++;
+    }
+    
+    void birth(string parentName, string childName) {
+        ids[childName]=count;
+        count++;
+        mpp[parentName].insert({-ids[childName],childName});
+        child_parent[childName]=parentName;
+    }
+    
+    void death(string name) {
+       ids[name]=0; 
+    }
+    
+    vector<string> getInheritanceOrder() {
+          stack<string>st;
+        vector<string>ans1;
+        st.push(ans);
+        while(!st.empty()){
+            string ok=st.top();
+            if(ids[ok]!=0)
+            ans1.push_back(ok);
+            st.pop();
+            for(auto it:mpp[ok])
+            st.push(it.second);
+        }
+        return ans1;
+    }
+};
+
+/**
+ * Your ThroneInheritance object will be instantiated and called as such:
+ * ThroneInheritance* obj = new ThroneInheritance(kingName);
+ * obj->birth(parentName,childName);
+ * obj->death(name);
+ * vector<string> param_3 = obj->getInheritanceOrder();
+ */
