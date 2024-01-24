@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> beautifulIndices(string s, string a, string b, int k) {
+        int n=s.size();
+        int asize=a.size();
+        int bsize=b.size();
+        if(n<asize || n<bsize){
+            return {};
+        }
+        vector<int>v1;
+        for(int i=0;i<n-a.size()+1;i++){
+            string s1=s.substr(i,a.size());
+            if(s1==a){
+                v1.push_back(i);
+            }
+        }
+        
+         vector<int>v2;
+        for(int i=0;i<n-b.size()+1;i++){
+            string s1=s.substr(i,b.size());
+            if(s1==b){
+                v2.push_back(i);
+            }
+        }
+        
+       vector<int>ans;
+        for(int i=0;i<v1.size();i++){
+            for(int j=0;j<v2.size();j++){
+                int diff=abs(v1[i]-v2[j]);
+                if(diff<=k){
+                   ans.push_back(v1[i]);
+                    break;
+                }
+               
+            }
+        }
+        return ans;
+        
+        
+    }
+};
