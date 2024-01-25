@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<int> v;
+    unordered_map<int,int> ump, ump1;
+    int mod = 1e9+7;
+    int recur(int i, int mask){
+        if(i >= v.size()) return 1;
+        int notake = recur(i+1,mask);
+        int take = 0;
+        if((mask&v[i])==0){
+            take = (long(ump1[v[i]]) * long(recur(i+1,mask|v[i])))%mod;
+        }
+        return (take + notake)%mod;
+    }
+    long long power(long long x, unsigned int y){
+        long long res = 1;    
+        x = x % mod;    
+        if (x == 0) return 0;    
+        while (y > 0) {
+            if (y & 1)
+                res = (res*x) % mod;
+    
+            y = y>>1;
+            x = (x*x) % mod;
+        }
+        return res;
+    }
+
+    int numberOfGoodSubsets(vector<int>& nums) {
+        int a[] = {2,3,5,7,11,13,17,19,23,29};
+        int ones = 0;
+        for(auto x: nums) ump[x]++;
+        for(auto y :ump){
+            int x = y.first;
+            int b = 0;
+            if(x==1) ones = ump[1];
+            else { 
+                for(int i = 0; i < 10; i++){
+                    if(x%a[i]==0){
+                        x/=a[i]; 
+                        b|=(1<<i);
+                    }
+                    if(x%a[i]==0||x==1) break;
+                }
+                if(x==1){
+                    v.push_back(b);
+                    ump1[b] = ump[y.first];
+                }
+            }
+        }
+        return (power(2,ones) * (recur(0,0)-1+mod))%mod;
+    }
+};
