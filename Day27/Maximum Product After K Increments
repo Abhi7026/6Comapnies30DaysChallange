@@ -1,0 +1,20 @@
+class Solution {
+    int mod=(int)(1e9+7);
+public:
+    int maximumProduct(vector<int>& nums, int k) {
+        priority_queue<int,vector<int>,greater<int>>q(nums.begin(),nums.end());
+        while(k>0){
+            int n=q.top();
+            n+=1;
+            q.pop();
+            q.push(n);
+            k--;
+        }
+        long long int sum=1;
+        while(!q.empty()){
+            sum=(sum*q.top())%mod;
+            q.pop();
+        }
+        return sum%mod;
+    }
+};
