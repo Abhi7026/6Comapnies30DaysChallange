@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int res=0;
+    vector<int> helper(TreeNode* root,int distance)
+    {
+        if(root==NULL)
+            return {};
+        auto left=helper(root->right,distance);
+        auto right=helper(root->left,distance);
+        vector<int> ans;
+        if(left.size()==0&&right.size()==0)
+        { 
+            ans.push_back(1);
+            return ans;
+        }
+        for(int i=0;i<left.size();i++)
+            for(int j=0;j<right.size();j++)
+            {
+                if(left[i]+right[j]<=distance)
+                    res++;
+            }
+        for(auto x:left)
+            ans.push_back(x+1);
+        for(auto x:right)
+            ans.push_back(x+1);
+        return ans;
+    }
+    
+    int countPairs(TreeNode* root, int distance) {
+        helper(root,distance);
+        return res;
+    }
+};
