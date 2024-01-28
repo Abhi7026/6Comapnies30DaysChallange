@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int stoneGameVI(vector<int>& nums1, vector<int>& nums2) {
+        int n=nums1.size();
+        int bob=0,alice=0;
+        vector<pair<int,int>>ans;
+        for(int i=0;i<n;i++){
+            ans.push_back({nums1[i]+nums2[i],i});
+        }
+        sort(ans.rbegin(),ans.rend());
+        for(int i=0;i<n;i++){
+            int idx=ans[i].second;
+            if(i%2)
+            bob+=nums2[idx];
+            else
+            alice+=nums1[idx];
+        }
+        if(bob==alice)
+        return 0;
+        return alice>bob?1:-1;
+    }
+};
